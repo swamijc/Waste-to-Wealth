@@ -1,5 +1,13 @@
 Flask>=2.3.0
-ultralytics>=8.0.0
 opencv-python-headless>=4.8.0
 gunicorn>=21.2.0
-numpy>=1.23.0
+numpy>=1.23.0,<2.3
+
+# CPU-only torch/torchvision builds (the default PyPI Linux wheels bundle CUDA
+# libraries and balloon to multiple GB, which blows past serverless size limits).
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch==2.4.1+cpu ; sys_platform == "linux"
+torch==2.4.1 ; sys_platform != "linux"
+torchvision==0.19.1+cpu ; sys_platform == "linux"
+torchvision==0.19.1 ; sys_platform != "linux"
+ultralytics>=8.0.0
